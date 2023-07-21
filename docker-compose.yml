@@ -1,0 +1,64 @@
+version: '3'
+services:
+  web:
+    build: ./web
+    container_name: frontend
+    working_dir: /app-frontend
+    ports:
+      - 3000:3000
+    tty: true
+    depends_on:
+      server:
+        condition: service_started
+    healthcheck:
+      test: ['CMD', 'lsof', '-t', '-i:3000']
+      timeout: 10s
+      retries: 5
+    networks:
+      - frontend
+
+  server:
+    build: ./server
+    container_name: backend
+    working_dir: /app-backend
+    restart: always
+    environment:
+      DATABASE_URL: mysql://root:password@mysql:3306/database
+      PORT: 3001
+    ports:
+      - 3001:3001
+    tty: true
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'lsof', '-t', '-i:3001']
+      timeout: 10s
+      retries: 5
+    networks:
+      - frontend
+      - backend
+
+  db:
+    image: mysql:8.0.17
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 10s
+      retries: 5
+    networks:
+      - backend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
