@@ -10,7 +10,13 @@ export interface Sale extends SaleDTO {
 	id: string;
 	transaction?: {
 		id: number;
-		name: string;
+		description: string;
 		natureOfTransaction: string;
 	};
+}
+
+export interface SellersReport {
+	seller: string;
+	valueSold: number;
+	type: 'producer' | 'affiliate';
 }

@@ -4,30 +4,31 @@ const prisma = new PrismaClient();
 
 const TYPE_ONE = {
 	id: 1,
-	name: 'Venda produtor',
+	description: 'Venda produtor',
 	natureOfTransaction: 'Entrada',
 };
 
 const TYPE_TWO = {
 	id: 2,
-	name: 'Venda afiliado',
+	description: 'Venda afiliado',
 	natureOfTransaction: 'Entrada',
 };
 
 const TYPE_THREE = {
 	id: 3,
-	name: 'Comissão paga',
+	description: 'Comissão paga',
 	natureOfTransaction: 'saída',
 };
 
 const TYPE_FOUR = {
 	id: 4,
-	name: 'Comissão recebida',
+	description: 'Comissão recebida',
 	natureOfTransaction: 'Entrada',
 };
 
 async function run() {
 	await prisma.transactionsTypes.deleteMany();
+	await prisma.sale.deleteMany();
 
 	await Promise.all([
 		prisma.transactionsTypes.create({ data: TYPE_ONE }),

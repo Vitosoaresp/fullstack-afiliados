@@ -13,16 +13,16 @@ export default class SaleService implements Service<Sale> {
 		return result;
 	}
 
-	public async create(data: unknown): Promise<Sale> {
+	public async create(data: unknown): Promise<{ count: number }> {
 		const dataParsed = saleSchema.safeParse(data);
 		if (!dataParsed.success) {
 			throw dataParsed.error;
 		}
 
-		const result = await this._client.create({
+		const createMany = await this._client.createMany({
 			data: dataParsed.data,
-			include: { transaction: true },
 		});
-		return result;
+
+		return createMany;
 	}
 }
