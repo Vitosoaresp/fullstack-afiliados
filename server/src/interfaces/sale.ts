@@ -8,4 +8,9 @@ export interface SaleDTO {
 
 export interface Sale extends SaleDTO {
 	id: string;
+	transaction?: {
+		id: number;
+		name: string;
+		natureOfTransaction: string;
+	};
 }

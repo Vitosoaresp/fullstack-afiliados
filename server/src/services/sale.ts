@@ -7,7 +7,9 @@ export default class SaleService implements Service<Sale> {
 	constructor(private _client: SaleModel) {}
 
 	public async findAll(): Promise<Sale[]> {
-		const result = await this._client.findMany();
+		const result = await this._client.findMany({
+			include: { transaction: true },
+		});
 		return result;
 	}
 
@@ -17,7 +19,10 @@ export default class SaleService implements Service<Sale> {
 			throw dataParsed.error;
 		}
 
-		const result = await this._client.create({ data: dataParsed.data });
+		const result = await this._client.create({
+			data: dataParsed.data,
+			include: { transaction: true },
+		});
 		return result;
 	}
 }
