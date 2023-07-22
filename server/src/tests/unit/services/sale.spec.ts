@@ -6,7 +6,7 @@ import { ZodError } from 'zod';
 import SaleService from '../../../services/sale';
 import { mockSaleDTO, mockSales } from '../../mocks/sales';
 
-describe('Services: Sale', () => {
+describe('Service: Sale', () => {
 	const client = {
 		findMany: () => {},
 		create: () => {},

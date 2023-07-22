@@ -6,7 +6,7 @@ import prisma from '../../../lib/prisma';
 import TypesOfTransactions from '../../../services/types-of-transactions';
 import { mockTypesOfTransactions } from '../../mocks/sales';
 
-describe('Services: TypeOfTransactions', () => {
+describe('Service: TypeOfTransactions', () => {
 	sinon.stub(prisma, 'transactionsTypes');
 	const client = {
 		findMany: () => {},
