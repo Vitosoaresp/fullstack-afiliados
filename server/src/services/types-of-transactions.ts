@@ -9,6 +9,10 @@ class TypesOfTransactions implements Service<TransactionsTypes> {
 		const result = await this._client.findMany();
 		return result;
 	}
+
+	public async create(data: unknown): Promise<TransactionsTypes> {
+		throw new Error('Method not implemented.');
+	}
 }
 
 export default TypesOfTransactions;
