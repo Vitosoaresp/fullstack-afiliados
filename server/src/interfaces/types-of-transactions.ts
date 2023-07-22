@@ -1,5 +1,5 @@
 export interface TransactionsTypes {
 	id: number;
-	name: string;
+	description: string;
 	natureOfTransaction: string;
 }

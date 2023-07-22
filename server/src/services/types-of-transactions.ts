@@ -10,7 +10,7 @@ class TypesOfTransactions implements Service<TransactionsTypes> {
 		return result;
 	}
 
-	public async create(data: unknown): Promise<TransactionsTypes> {
+	create(data: unknown): Promise<{ count: number }> {
 		throw new Error('Method not implemented.');
 	}
 }
