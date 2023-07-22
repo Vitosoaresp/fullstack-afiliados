@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+import { DefaultArgs } from '@prisma/client/runtime/library';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import prisma from '../../../lib/prisma';
@@ -5,8 +7,11 @@ import TypesOfTransactions from '../../../services/types-of-transactions';
 import { mockTypesOfTransactions } from '../../mocks/sales';
 
 describe('Services: TypeOfTransactions', () => {
-	const client = prisma.transactionsTypes;
-	const typeOfTransactionsService = new TypesOfTransactions(client);
+	sinon.stub(prisma, 'transactionsTypes');
+	const client = {
+		findMany: () => {},
+	} as Prisma.TransactionsTypesDelegate<DefaultArgs>;
+
 	before(async () => {
 		sinon.stub(client, 'findMany').resolves(mockTypesOfTransactions);
 	});
@@ -14,6 +19,8 @@ describe('Services: TypeOfTransactions', () => {
 	after(() => {
 		sinon.restore();
 	});
+
+	const typeOfTransactionsService = new TypesOfTransactions(client);
 
 	describe('findAll', () => {
 		it('should return a list of types of transactions', async () => {
