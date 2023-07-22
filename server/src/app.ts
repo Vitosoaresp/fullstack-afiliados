@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import { errorHandler } from './middleware/error';
 import saleRouter from './routes/sale';
 
 class App {
@@ -12,6 +13,7 @@ class App {
 
 		this.app.get('/', (req, res) => res.json({ ok: true }));
 		this.app.use('/sales', saleRouter);
+		this.app.use(errorHandler);
 	}
 
 	private config(): void {
