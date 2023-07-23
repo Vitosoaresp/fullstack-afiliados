@@ -1,6 +1,9 @@
 export interface Service<T> {
-	findAll(): Promise<T[]>;
-	create(data: unknown): Promise<{ count: number }>;
+	getAll(): Promise<T[]>;
+	create(data: unknown): Promise<T>;
+	getById(id: string): Promise<T>;
+	update(id: string, data: unknown): Promise<T>;
+	delete(id: string): Promise<T>;
 }
 
 export interface ServiceReport<T> {

@@ -14,4 +14,19 @@ export default class SaleController {
 		const created = await this._service.create(req.body);
 		return res.status(201).json(created);
 	}
+
+	public async findById(req: Request, res: Response) {
+		const result = await this._service.getById(req.params.id);
+		return res.status(200).json(result);
+	}
+
+	public async update(req: Request, res: Response) {
+		const result = await this._service.update(req.params.id, req.body);
+		return res.status(200).json(result);
+	}
+
+	public async delete(req: Request, res: Response) {
+		const deleted = await this._service.delete(req.params.id);
+		return res.status(200).json(deleted);
+	}
 }

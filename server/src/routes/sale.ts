@@ -16,6 +16,9 @@ const saleController = new SaleController(saleService);
 
 router.get('/', (req, res) => saleController.findAll(req, res));
 router.post('/', (req, res) => saleController.create(req, res));
+router.get('/:id', (req, res) => saleController.findById(req, res));
+router.put('/:id', (req, res) => saleController.update(req, res));
+router.delete('/:id', (req, res) => saleController.delete(req, res));
 // router.get('/transactions-types', (req, res) =>
 // 	transactionsTypesController.findAll(req, res),
 // );
