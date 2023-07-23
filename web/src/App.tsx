@@ -5,7 +5,7 @@ import { useSession } from './hooks/useSession';
 function App() {
 	const { email } = useSession();
 	const navigate = useNavigate();
-	const isAthenticated = !!email;
+	const isAthenticated = !email; // TODO: change this to check if the user is authenticated
 	const pathToNavigate = isAthenticated ? '/transactions' : '/login';
 
 	useEffect(() => {
