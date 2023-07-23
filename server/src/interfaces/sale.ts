@@ -6,12 +6,26 @@ export interface SaleDTO {
 	typeId: number;
 }
 
-export interface Sale extends SaleDTO {
+export interface Sale {
 	id: string;
+	date: Date;
+	price: number;
+	typeId: number;
+	sellerId: string;
+	productId: string;
 	transaction?: {
 		id: number;
 		description: string;
 		natureOfTransaction: string;
+	};
+	seller: {
+		id: string;
+		name: string;
+		type: string;
+	};
+	product: {
+		id: string;
+		name: string;
 	};
 }
 

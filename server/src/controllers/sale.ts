@@ -6,7 +6,7 @@ export default class SaleController {
 	constructor(private _service: Service<Sale>) {}
 
 	public async findAll(_req: Request, res: Response) {
-		const result = await this._service.findAll();
+		const result = await this._service.getAll();
 		return res.status(200).json(result);
 	}
 
