@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
 export const saleSchema = z.object({
-	productId: z.string(),
+	product: z.string(),
 	price: z.number(),
-	sellerId: z.string(),
+	seller: z.string(),
 	date: z.date(),
 	typeId: z.number(),
 });
