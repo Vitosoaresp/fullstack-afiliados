@@ -1,6 +1,8 @@
 import cors from 'cors';
 import express from 'express';
+import 'express-async-errors';
 import { errorHandler } from './middleware/error';
+import productRouter from './routes/product';
 import saleRouter from './routes/sale';
 import sellersRouter from './routes/sellers';
 
@@ -15,6 +17,7 @@ class App {
 		this.app.get('/', (req, res) => res.json({ ok: true }));
 		this.app.use('/sales', saleRouter);
 		this.app.use('/sellers', sellersRouter);
+		this.app.use('/products', productRouter);
 		this.app.use(errorHandler);
 	}
 

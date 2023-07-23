@@ -22,3 +22,7 @@ export const sellerSchema = z.object({
 	name: z.string(),
 	type: z.string(),
 });
+
+export const productSchema = z.object({
+	name: z.string(),
+});
