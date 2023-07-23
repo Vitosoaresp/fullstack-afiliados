@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { SaleDTO } from '../interfaces/sale';
 import { ServiceUpload } from '../interfaces/services';
+import { SaleDTO } from '../interfaces/transaction';
 
 export default class UploadFileService implements ServiceUpload {
 	constructor(private _prisma: PrismaClient) {}

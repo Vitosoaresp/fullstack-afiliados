@@ -1,12 +1,12 @@
 import { Model } from '../interfaces/model';
-import { Sale, SaleDTO } from '../interfaces/sale';
+import { Transaction, TransactionDTO } from '../interfaces/transaction';
 import { Client } from '../lib/prisma';
 
-export default class SaleModel implements Model<Sale> {
+export default class TransactionModel implements Model<Transaction> {
 	constructor(private _prisma: Client) {}
 
 	public async getAll() {
-		const result = await this._prisma.sale.findMany({
+		const result = await this._prisma.transaction.findMany({
 			include: {
 				product: true,
 				seller: true,
@@ -16,7 +16,7 @@ export default class SaleModel implements Model<Sale> {
 	}
 
 	public async getById(id: string) {
-		const result = await this._prisma.sale.findUnique({
+		const result = await this._prisma.transaction.findUnique({
 			where: {
 				id,
 			},
@@ -28,8 +28,8 @@ export default class SaleModel implements Model<Sale> {
 		return result;
 	}
 
-	public async create(data: SaleDTO) {
-		const result = await this._prisma.sale.create({
+	public async create(data: TransactionDTO) {
+		const result = await this._prisma.transaction.create({
 			data: {
 				price: data.price,
 				date: data.date,
@@ -68,8 +68,8 @@ export default class SaleModel implements Model<Sale> {
 		return result;
 	}
 
-	public async update(id: string, data: SaleDTO) {
-		const result = await this._prisma.sale.update({
+	public async update(id: string, data: TransactionDTO) {
+		const result = await this._prisma.transaction.update({
 			where: {
 				id,
 			},
@@ -112,7 +112,7 @@ export default class SaleModel implements Model<Sale> {
 	}
 
 	public async delete(id: string) {
-		const result = await this._prisma.sale.delete({
+		const result = await this._prisma.transaction.delete({
 			where: {
 				id,
 			},

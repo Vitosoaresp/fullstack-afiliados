@@ -3,13 +3,13 @@ import sinon from 'sinon';
 
 import { PrismaClient } from '@prisma/client';
 import { ZodError } from 'zod';
-import SaleModel from '../../../models/sale';
-import SaleService from '../../../services/sale';
+import TransactionModel from '../../../models/transaction';
+import TransactionService from '../../../services/transaction';
 import { mockSale, mockSaleDTO, mockSales } from '../../mocks/sales';
 
-describe('Service: Sale', () => {
+describe('Service: Transaction', () => {
 	const prisma = {
-		sale: {
+		transaction: {
 			create: () => {},
 			findMany: () => {},
 			findUnique: () => {},
@@ -18,8 +18,8 @@ describe('Service: Sale', () => {
 		},
 	} as unknown as PrismaClient;
 
-	const model = new SaleModel(prisma);
-	const service = new SaleService(model);
+	const model = new TransactionModel(prisma);
+	const service = new TransactionService(model);
 	const FAKE_ID = mockSale.id;
 
 	before(async () => {

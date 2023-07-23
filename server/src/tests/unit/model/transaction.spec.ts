@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { PrismaClient } from '@prisma/client';
-import SaleModel from '../../../models/sale';
+import TransactionModel from '../../../models/transaction';
 import { mockSale, mockSaleDTO, mockSales } from '../../mocks/sales';
 
-describe('Model: Sale', () => {
+describe('Model: Transactions', () => {
 	const prisma = {
-		sale: {
+		transaction: {
 			create: () => {},
 			findMany: () => {},
 			findUnique: () => {},
@@ -16,20 +16,20 @@ describe('Model: Sale', () => {
 		},
 	} as unknown as PrismaClient;
 
-	const model = new SaleModel(prisma);
+	const model = new TransactionModel(prisma);
 	const FAKE_ID = mockSale.id;
 
 	before(async () => {
-		sinon.stub(prisma.sale, 'create').resolves(mockSale);
-		sinon.stub(prisma.sale, 'findMany').resolves(mockSales);
+		sinon.stub(prisma.transaction, 'create').resolves(mockSale);
+		sinon.stub(prisma.transaction, 'findMany').resolves(mockSales);
 		sinon
-			.stub(prisma.sale, 'findUnique')
+			.stub(prisma.transaction, 'findUnique')
 			.onFirstCall()
 			.resolves(mockSale)
 			.onSecondCall()
 			.resolves(null);
-		sinon.stub(prisma.sale, 'update').resolves(mockSale);
-		sinon.stub(prisma.sale, 'delete').resolves(mockSale);
+		sinon.stub(prisma.transaction, 'update').resolves(mockSale);
+		sinon.stub(prisma.transaction, 'delete').resolves(mockSale);
 	});
 
 	after(() => {

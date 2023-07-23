@@ -20,13 +20,13 @@ model User {
 }
 
 model TransactionsTypes {
-  id                  Int    @id @default(autoincrement())
+  id                  Int           @id @default(autoincrement())
   description         String
   natureOfTransaction String
-  Sale                Sale[]
+  Transaction         Transaction[]
 }
 
-model Sale {
+model Transaction {
   id        String   @id @default(uuid())
   productId String
   price     Int
@@ -40,14 +40,14 @@ model Sale {
 }
 
 model Product {
-  id   String @id @default(uuid())
-  name String @unique
-  Sale Sale[]
+  id          String        @id @default(uuid())
+  name        String        @unique
+  Transaction Transaction[]
 }
 
 model Seller {
-  id   String @id @default(uuid())
-  name String @unique
-  type String
-  Sale Sale[]
+  id          String        @id @default(uuid())
+  name        String        @unique
+  type        String
+  Transaction Transaction[]
 }

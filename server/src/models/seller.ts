@@ -6,7 +6,9 @@ export default class SellerModel implements ModelSeller {
 	constructor(private _prisma: Client) {}
 
 	public async getAll(): Promise<Seller[]> {
-		const result = await this._prisma.seller.findMany();
+		const result = await this._prisma.seller.findMany({
+			include: { Transaction: true },
+		});
 		return result;
 	}
 
@@ -51,7 +53,7 @@ export default class SellerModel implements ModelSeller {
 				type: 'producer',
 			},
 			include: {
-				Sale: {
+				Transaction: {
 					where: {
 						typeId: {
 							in: [1, 4],
@@ -62,7 +64,10 @@ export default class SellerModel implements ModelSeller {
 		});
 		const data = result.map((seller) => ({
 			name: seller.name,
-			comission: seller.Sale.reduce((acc, current) => acc + current.price, 0),
+			comission: seller.Transaction.reduce(
+				(acc, current) => acc + current.price,
+				0,
+			),
 			type: seller.type,
 		}));
 
@@ -75,7 +80,7 @@ export default class SellerModel implements ModelSeller {
 				type: 'affiliate',
 			},
 			include: {
-				Sale: {
+				Transaction: {
 					where: {
 						typeId: {
 							in: [2, 3],
@@ -87,7 +92,7 @@ export default class SellerModel implements ModelSeller {
 
 		const data = result.map((seller) => ({
 			name: seller.name,
-			comission: seller.Sale.reduce((acc, current) => {
+			comission: seller.Transaction.reduce((acc, current) => {
 				if (current.typeId === 2) {
 					return acc + current.price;
 				}

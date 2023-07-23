@@ -1,6 +1,6 @@
 import { Seller } from '@prisma/client';
-import { SaleDTO } from './sale';
 import { SellerReport } from './seller';
+import { SaleDTO } from './transaction';
 
 export interface Service<T> {
 	getAll(): Promise<T[]>;

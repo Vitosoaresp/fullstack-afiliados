@@ -1,4 +1,4 @@
-export interface SaleDTO {
+export interface TransactionDTO {
 	product: string;
 	price: number;
 	seller: string;
@@ -6,7 +6,7 @@ export interface SaleDTO {
 	typeId: number;
 }
 
-export interface Sale {
+export interface Transaction {
 	id: string;
 	date: Date;
 	price: number;

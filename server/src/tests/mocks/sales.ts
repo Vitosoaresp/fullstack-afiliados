@@ -1,4 +1,4 @@
-import { Sale } from '../../interfaces/sale';
+import { Sale } from '../../interfaces/transaction';
 
 export const mockSales: Sale[] = [
 	{

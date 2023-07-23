@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { SellersReport } from '../interfaces/sale';
+import { SellersReport } from '../interfaces/transaction';
 
 export default class ReportService {
 	constructor(private _client: PrismaClient) {}

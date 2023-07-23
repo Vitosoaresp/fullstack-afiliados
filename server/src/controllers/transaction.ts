@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { Sale } from '../interfaces/sale';
 import { Service } from '../interfaces/services';
+import { Transaction } from '../interfaces/transaction';
 
-export default class SaleController {
-	constructor(private _service: Service<Sale>) {}
+export default class TransactionController {
+	constructor(private _service: Service<Transaction>) {}
 
 	public async findAll(_req: Request, res: Response) {
 		const result = await this._service.getAll();

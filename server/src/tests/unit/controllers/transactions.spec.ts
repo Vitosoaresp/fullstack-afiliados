@@ -2,14 +2,14 @@ import { PrismaClient } from '@prisma/client';
 import { expect } from 'chai';
 import { Request, Response } from 'express';
 import { restore, stub } from 'sinon';
-import SaleController from '../../../controllers/sale';
-import SaleModel from '../../../models/sale';
-import SaleService from '../../../services/sale';
+import Controller from '../../../controllers/transaction';
+import Model from '../../../models/transaction';
+import Service from '../../../services/transaction';
 import { mockSale, mockSaleDTO, mockSales } from '../../mocks/sales';
 
-describe('Controller: Sale', () => {
+describe('Controller: Transaction', () => {
 	const prisma = {
-		sale: {
+		transaction: {
 			create: () => {},
 			findMany: () => {},
 			findUnique: () => {},
@@ -21,9 +21,9 @@ describe('Controller: Sale', () => {
 	const req = {} as Request;
 	const res = {} as Response;
 
-	const model = new SaleModel(prisma);
-	const service = new SaleService(model);
-	const controller = new SaleController(service);
+	const model = new Model(prisma);
+	const service = new Service(model);
+	const controller = new Controller(service);
 
 	before(async () => {
 		stub(service, 'getAll').resolves(mockSales);
@@ -40,16 +40,16 @@ describe('Controller: Sale', () => {
 		restore();
 	});
 
-	describe('GET /sales', () => {
-		it('success for get all sales', async () => {
+	describe('GET /transactions', () => {
+		it('success for get all transactions', async () => {
 			await controller.findAll(req, res);
 			expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
 			expect((res.json as sinon.SinonStub).calledWith(mockSales)).to.be.true;
 		});
 	});
 
-	describe('POST /sales', () => {
-		it('success for create new sale', async () => {
+	describe('POST /transactions', () => {
+		it('success for create new transaction', async () => {
 			req.body = mockSaleDTO;
 			await controller.create(req, res);
 			expect((res.status as sinon.SinonStub).calledWith(201)).to.be.true;
@@ -57,17 +57,17 @@ describe('Controller: Sale', () => {
 		});
 	});
 
-	describe('GET /sales/:id', () => {
-		it('success for get sale by id', async () => {
+	describe('GET /transactions/:id', () => {
+		it('success for get transaction by id', async () => {
 			req.params = { id: mockSale.id };
 			await controller.findById(req, res);
 			expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
-			expect((res.json as sinon.SinonStub).calledWith(mockSales)).to.be.true;
+			expect((res.json as sinon.SinonStub).calledWith(mockSale)).to.be.true;
 		});
 	});
 
-	describe('PUT /sales/:id', () => {
-		it('success for update new sale', async () => {
+	describe('PUT /transactions/:id', () => {
+		it('success for update new transaction', async () => {
 			req.body = mockSaleDTO;
 			req.params = { id: mockSale.id };
 			await controller.update(req, res);
@@ -76,8 +76,8 @@ describe('Controller: Sale', () => {
 		});
 	});
 
-	describe('DELETE /sales/:id', () => {
-		it('success for delete new sale', async () => {
+	describe('DELETE /transactions/:id', () => {
+		it('success for delete new transaction', async () => {
 			req.params = { id: mockSale.id };
 			await controller.delete(req, res);
 			expect((res.status as sinon.SinonStub).calledWith(201)).to.be.true;
