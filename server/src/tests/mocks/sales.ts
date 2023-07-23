@@ -1,37 +1,25 @@
-export const mockTypesOfTransactions = [
-	{
-		id: 1,
-		name: 'Venda produtor',
-		natureOfTransaction: 'Entrada',
-	},
-	// {
-	// 	id: 2,
-	// 	name: 'Venda afiliado',
-	// 	natureOfTransaction: 'Entrada',
-	// },
-	// {
-	// 	id: 3,
-	// 	name: 'Comissão paga',
-	// 	natureOfTransaction: 'saída',
-	// },
-	// {
-	// 	id: 4,
-	// 	name: 'Comissão recebida',
-	// 	natureOfTransaction: 'Entrada',
-	// },
-];
+import { Sale } from '../../interfaces/sale';
 
-export const mockSales = [
+export const mockSales: Sale[] = [
 	{
 		id: 'HASG-1234-ASDASD-1234',
 		date: new Date('2021-01-01'),
 		price: 100,
 		typeId: 1,
-		product: 'Fake product',
-		seller: 'Fake seller',
+		productId: '60e9b4f0f3f7b8b9b8b9b8b9',
+		sellerId: '60e9b4f0f3f7b8b9b8b9b8b9',
+		product: {
+			id: '60e9b4f0f3f7b8b9b8b9b8b9',
+			name: 'Fake product',
+		},
+		seller: {
+			id: '60e9b4f0f3f7b8b9b8b9b8b9',
+			name: 'Fake seller',
+			type: 'Produtor',
+		},
 		transaction: {
 			id: 1,
-			name: 'Venda produtor',
+			description: 'Venda produtor',
 			natureOfTransaction: 'Entrada',
 		},
 	},
@@ -44,3 +32,5 @@ export const mockSaleDTO = {
 	product: 'Fake product',
 	seller: 'Fake seller',
 };
+
+export const mockSale = mockSales[0];
