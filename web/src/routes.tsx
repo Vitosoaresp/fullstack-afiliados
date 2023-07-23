@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
 		element: <Seller />,
 	},
 	{
-		path: '/transacitons',
+		path: '/transactions',
 		element: <Transactions />,
 	},
 ]);
