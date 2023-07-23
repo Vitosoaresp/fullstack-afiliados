@@ -1,10 +1,10 @@
-import { Model } from '../interfaces/model';
+import { ModelSeller } from '../interfaces/model';
 import { Seller } from '../interfaces/seller';
-import { Service } from '../interfaces/services';
+import { ServiceSeller } from '../interfaces/services';
 import { sellerSchema } from '../utils/validations';
 
-export default class SellerService implements Service<Seller> {
-	constructor(private _model: Model<Seller>) {}
+export default class SellerService implements ServiceSeller {
+	constructor(private _model: ModelSeller) {}
 
 	public async getAll(): Promise<Seller[]> {
 		return await this._model.getAll();
@@ -39,5 +39,15 @@ export default class SellerService implements Service<Seller> {
 	public async delete(id: string): Promise<Seller> {
 		const deleted = await this._model.delete(id);
 		return deleted;
+	}
+
+	public async getProducers() {
+		const result = await this._model.getProducers();
+		return result;
+	}
+
+	public async getAffiliates() {
+		const result = await this._model.getAffiliates();
+		return result;
 	}
 }

@@ -5,3 +5,9 @@ export interface Seller {
 }
 
 export interface SellerDTO extends Omit<Seller, 'id'> {}
+
+export interface SellerReport {
+	name: string;
+	comission: number;
+	type: string;
+}

@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { Seller } from '../interfaces/seller';
-import { Service } from '../interfaces/services';
+import { ServiceSeller } from '../interfaces/services';
 
 export class SellersController {
-	constructor(private _service: Service<Seller>) {}
+	constructor(private _service: ServiceSeller) {}
 
 	public async getAll(req: Request, res: Response) {
 		const reports = await this._service.getAll();
@@ -28,5 +27,15 @@ export class SellersController {
 	public async delete(req: Request, res: Response) {
 		const deleted = await this._service.delete(req.params.id);
 		return res.status(200).json(deleted);
+	}
+
+	public async getProducers(req: Request, res: Response) {
+		const result = await this._service.getProducers();
+		return res.status(200).json(result);
+	}
+
+	public async getAffiliates(req: Request, res: Response) {
+		const result = await this._service.getAffiliates();
+		return res.status(200).json(result);
 	}
 }

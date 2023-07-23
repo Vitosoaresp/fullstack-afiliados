@@ -1,8 +1,8 @@
-import { Model } from '../interfaces/model';
+import { ModelSeller } from '../interfaces/model';
 import { Seller, SellerDTO } from '../interfaces/seller';
 import { Client } from '../lib/prisma';
 
-export default class SellerModel implements Model<Seller> {
+export default class SellerModel implements ModelSeller {
 	constructor(private _prisma: Client) {}
 
 	public async getAll(): Promise<Seller[]> {
@@ -43,5 +43,59 @@ export default class SellerModel implements Model<Seller> {
 			},
 		});
 		return result;
+	}
+
+	public async getProducers() {
+		const result = await this._prisma.seller.findMany({
+			where: {
+				type: 'producer',
+			},
+			include: {
+				Sale: {
+					where: {
+						typeId: {
+							in: [1, 4],
+						},
+					},
+				},
+			},
+		});
+		const data = result.map((seller) => ({
+			name: seller.name,
+			comission: seller.Sale.reduce((acc, current) => acc + current.price, 0),
+			type: seller.type,
+		}));
+
+		return data;
+	}
+
+	public async getAffiliates() {
+		const result = await this._prisma.seller.findMany({
+			where: {
+				type: 'affiliate',
+			},
+			include: {
+				Sale: {
+					where: {
+						typeId: {
+							in: [2, 3],
+						},
+					},
+				},
+			},
+		});
+
+		const data = result.map((seller) => ({
+			name: seller.name,
+			comission: seller.Sale.reduce((acc, current) => {
+				if (current.typeId === 2) {
+					return acc + current.price;
+				}
+				return acc - current.price;
+			}, 0),
+			type: seller.type,
+		}));
+
+		return data;
 	}
 }
