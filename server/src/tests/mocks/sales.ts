@@ -1,6 +1,6 @@
-import { Sale } from '../../interfaces/transaction';
+import { Transaction } from '../../interfaces/transaction';
 
-export const mockSales: Sale[] = [
+export const mockSales: Transaction[] = [
 	{
 		id: 'HASG-1234-ASDASD-1234',
 		date: new Date('2021-01-01'),
