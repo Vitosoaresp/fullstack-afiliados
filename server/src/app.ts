@@ -14,7 +14,6 @@ class App {
 
 		this.config();
 
-		this.app.get('/', (req, res) => res.json({ ok: true }));
 		this.app.use('/sales', saleRouter);
 		this.app.use('/sellers', sellersRouter);
 		this.app.use('/products', productRouter);
