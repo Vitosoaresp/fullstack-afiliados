@@ -1,16 +1,16 @@
 import { Router } from 'express';
 import { SellersController } from '../controllers/sellers';
 import prisma from '../lib/prisma';
-import SellersService from '../services/sellers';
+import SellerModel from '../models/seller';
+import SellersService from '../services/seller';
 
 const router = Router();
 
-const sellersService = new SellersService(prisma.sale);
-const sellerControler = new SellersController(sellersService);
+const model = new SellerModel(prisma);
+const service = new SellersService(model);
+const controller = new SellersController(service);
 
-router.get('/producers', (req, res) => sellerControler.getProducers(req, res));
-router.get('/affiliates', (req, res) =>
-	sellerControler.getAffiliates(req, res),
-);
+router.get('/', (req, res) => controller.getAll(req, res));
+router.post('/', (req, res) => controller.create(req, res));
 
 export default router;
