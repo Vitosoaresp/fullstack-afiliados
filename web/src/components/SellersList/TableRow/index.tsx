@@ -11,6 +11,7 @@ import {
 	TableRow,
 	Typography,
 } from '@mui/material';
+import { format } from 'date-fns';
 import { useState } from 'react';
 import { Transaction } from '../../../types/transaction';
 import {
@@ -62,7 +63,12 @@ export function Row({ name, type, transactions }: TableRowProps) {
 								<TableBody>
 									{transactions?.map((transaction) => (
 										<TableRow key={transaction.id}>
-											<TableCell>{transaction.date}</TableCell>
+											<TableCell>
+												{format(
+													new Date(transaction.date),
+													'dd/MM/yyyy, HH:mm',
+												)}
+											</TableCell>
 											<TableCell>{transaction.productId}</TableCell>
 											<TableCell align='right'>
 												{formatValue(transaction.price)}
