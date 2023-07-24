@@ -1,8 +1,13 @@
-import { Transaction } from './transaction.ts';
-
 export interface Seller {
 	id: string;
 	name: string;
 	type: 'affiliate' | 'producer';
-	Transaction: Transaction[];
+	Transaction: {
+		date: string;
+		id: string;
+		price: number;
+		productId: string;
+		sellerId: string;
+		typeId: number;
+	};
 }
