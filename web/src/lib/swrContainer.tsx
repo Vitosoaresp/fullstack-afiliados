@@ -11,7 +11,7 @@ export function SWRConfiguration({ children }: SWRConfigurationProps) {
 	return (
 		<SWRConfig
 			value={{
-				refreshInterval: 3000,
+				refreshInterval: 9000,
 				fetcher: fetch,
 			}}
 		>
