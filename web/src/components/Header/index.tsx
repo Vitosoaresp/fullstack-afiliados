@@ -1,21 +1,42 @@
+import { Menu as MenuIcon } from '@mui/icons-material';
 import {
 	Box,
 	Button,
 	Container,
+	Divider,
+	Menu,
+	MenuItem,
 	Link as MuiLink,
+	Theme,
 	Typography,
+	useMediaQuery,
 } from '@mui/material';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSession } from '../../hooks/useSession';
 import { DialogForm } from '../DialogForm';
-import { StyledHeader, StyledNavigation } from './styles';
+import Navigation from './Navigation';
+import { StyledHeader, StyledMenuIcon } from './styles';
 
 export function Header() {
-	const { token, logout } = useSession();
-	const [open, setOpen] = useState(false);
+	const { logout } = useSession();
+	const navigate = useNavigate();
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const [openDialog, setOpenDialog] = useState(false);
 
-	const handleOpenDialog = () => setOpen(true);
-	const handleCloseDialog = () => setOpen(false);
+	const open = Boolean(anchorEl);
+	const handleOpenMenu = (event: MouseEvent<HTMLElement>) =>
+		setAnchorEl(event.currentTarget);
+	const handleCloseMenu = () => setAnchorEl(null);
+
+	const handleOpenDialog = () => setOpenDialog(true);
+	const handleCloseDialog = () => setOpenDialog(false);
+	const handleLogout = () => {
+		logout();
+		navigate('/login');
+	};
+
+	const desktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
 	return (
 		<StyledHeader>
@@ -39,41 +60,64 @@ export function Header() {
 						gap: 5,
 					}}
 				>
-					<StyledNavigation>
-						<MuiLink
-							underline='none'
-							href='/sellers'
-							color='black'
-							fontWeight={600}
-						>
-							<Typography>Vendedores</Typography>
-						</MuiLink>
-						<MuiLink
-							underline='none'
-							href='/transactions'
-							color='black'
-							fontWeight={600}
-						>
-							<Typography>Transações</Typography>
-						</MuiLink>
-						<Button variant='text' color='primary' onClick={handleOpenDialog}>
-							<Typography fontWeight={600}>Importar</Typography>
-						</Button>
-					</StyledNavigation>
+					{desktop && <Navigation />}
 
-					{token && (
-						<Button variant='contained' color='secondary' onClick={logout}>
-							sair
-						</Button>
-					)}
-					{!token && (
-						<Button variant='contained' color='secondary'>
-							entrar
-						</Button>
-					)}
+					<StyledMenuIcon onClick={handleOpenMenu}>
+						<MenuIcon />
+					</StyledMenuIcon>
 				</Box>
 			</Container>
-			{open && <DialogForm open={open} onRefuse={handleCloseDialog} />}
+
+			<Menu anchorEl={anchorEl} onClose={handleCloseMenu} open={open}>
+				<MenuItem onClick={handleCloseMenu}>
+					<MuiLink
+						underline='none'
+						href='/sellers'
+						color='black'
+						width='100%'
+						fontWeight={600}
+					>
+						<Typography textAlign='center'>Vendedores</Typography>
+					</MuiLink>
+				</MenuItem>
+				<MenuItem onClick={handleCloseMenu}>
+					<MuiLink
+						underline='none'
+						href='/transactions'
+						color='black'
+						fontWeight={600}
+						width='100%'
+					>
+						<Typography textAlign='center'>Transações</Typography>
+					</MuiLink>
+				</MenuItem>
+				<Divider />
+				<MenuItem onClick={handleCloseMenu}>
+					<Button
+						fullWidth
+						variant='text'
+						color='primary'
+						onClick={handleOpenDialog}
+					>
+						<Typography fontWeight={600}>Importar</Typography>
+					</Button>
+				</MenuItem>
+				<Divider />
+				<MenuItem onClick={handleCloseMenu}>
+					<Button
+						fullWidth
+						variant='text'
+						color='secondary'
+						onClick={handleLogout}
+					>
+						sair
+					</Button>
+				</MenuItem>
+			</Menu>
+
+			{openDialog && (
+				<DialogForm open={openDialog} onRefuse={handleCloseDialog} />
+			)}
 		</StyledHeader>
 	);
 }
