@@ -17,11 +17,11 @@ class App {
 
 		this.config();
 
-		this.app.use('/', authRouter);
 		this.app.use('/transactions', transactionsRouter);
 		this.app.use('/sellers', sellersRouter);
 		this.app.use('/products', productRouter);
-		app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+		this.app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+		this.app.use('/', authRouter);
 		this.app.use(errorHandler);
 	}
 

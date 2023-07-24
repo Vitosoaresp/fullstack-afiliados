@@ -1,0 +1,992 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Fullstack affiliates API",
+		"description": "Fullstack affiliates API",
+		"license": {
+			"name": "MIT",
+			"url": "https://opensource.org/licenses/MIT"
+		}
+	},
+	"components": {
+		"schemas": {
+			"Seller": {
+				"type": "object",
+				"required": ["name", "type"],
+				"properties": {
+					"id": {
+						"type": "string",
+						"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+					},
+					"name": {
+						"type": "string",
+						"example": "Seller name"
+					},
+					"type": {
+						"type": "string",
+						"example": "producer"
+					}
+				}
+			},
+			"Transactions": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+					},
+					"sellerId": {
+						"type": "string",
+						"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+					},
+					"productId": {
+						"type": "string",
+						"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+					},
+					"typeId": {
+						"type": "string",
+						"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+					},
+					"price": {
+						"type": "number",
+						"example": 155000
+					},
+					"date": {
+						"type": "string",
+						"example": "2022-03-03T16:12:16.000Z"
+					},
+					"seller": {
+						"$ref": "#/components/schemas/Seller"
+					},
+					"product": {
+						"$ref": "#/components/schemas/Product"
+					},
+					"transaction": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "number",
+								"example": 1
+							},
+							"description": {
+								"type": "string",
+								"example": "Venda produtor"
+							},
+							"natureOfTransaction": {
+								"type": "string",
+								"example": "Entrada"
+							}
+						}
+					}
+				}
+			},
+			"Product": {
+				"type": "object",
+				"required": ["name"],
+				"properties": {
+					"id": {
+						"type": "string",
+						"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+					},
+					"name": {
+						"type": "string",
+						"required": true,
+						"example": "product name"
+					}
+				}
+			},
+			"User": {
+				"type": "object",
+				"required": ["name", "email", "password"],
+				"properties": {
+					"id": {
+						"type": "string",
+						"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+					},
+					"name": {
+						"type": "string",
+						"example": "name"
+					},
+					"email": {
+						"type": "string",
+						"example": "example@gmail.com"
+					},
+					"password": {
+						"type": "string",
+						"example": "haskkk23"
+					},
+					"createdAt": {
+						"type": "string",
+						"example": "2022-03-03T16:12:16.000Z"
+					},
+					"updatedAt": {
+						"type": "string",
+						"example": "2022-03-03T16:12:16.000Z"
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3001",
+			"description": "Local server"
+		}
+	],
+	"tags": [],
+	"consumes": ["application/json"],
+	"produces": ["application/json"],
+	"basePath": "/swagger",
+	"paths": {
+		"/sellers": {
+			"get": {
+				"summary": "Get all sellers",
+				"tags": ["Sellers"],
+				"responses": {
+					"200": {
+						"description": "Sucessfully list all sellers",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"required": ["name", "type"],
+										"properties": {
+											"id": {
+												"type": "string",
+												"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+											},
+											"name": {
+												"type": "string",
+												"example": "Seller name"
+											},
+											"type": {
+												"type": "string",
+												"example": "producer"
+											},
+											"Transaction": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"id": {
+															"type": "string",
+															"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+														},
+														"sellerId": {
+															"type": "string",
+															"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+														},
+														"productId": {
+															"type": "string",
+															"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+														},
+														"typeId": {
+															"type": "string",
+															"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+														},
+														"price": {
+															"type": "number",
+															"example": 155000
+														},
+														"date": {
+															"type": "string",
+															"example": "2022-03-03T16:12:16.000Z"
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"post": {
+				"summary": "create a new seller",
+				"tags": ["Sellers"],
+				"requestBody": {
+					"required": ["name", "type"],
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Seller"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Sucessfully created seller",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Seller"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"fatal": {
+														"type": "boolean"
+													},
+													"message": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/sellers/{id}": {
+			"get": {
+				"summary": "Get seller by ID",
+				"tags": ["Sellers"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sucessfully get seller by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Seller"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Seller not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"put": {
+				"summary": "Update seller by ID",
+				"tags": ["Sellers"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": ["name", "type"],
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Seller"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Sucessfully updated seller by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Seller"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"fatal": {
+														"type": "boolean"
+													},
+													"message": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Seller not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete seller by ID",
+				"tags": ["Sellers"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sucessfully deleted seller by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Seller"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Seller not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/products": {
+			"get": {
+				"summary": "Get all products",
+				"tags": ["Products"],
+				"responses": {
+					"200": {
+						"description": "Sucessfully list all products",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Product"
+									}
+								}
+							}
+						}
+					},
+
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"post": {
+				"summary": "create a new product",
+				"tags": ["Products"],
+				"requestBody": {
+					"required": ["name"],
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Product"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Sucessfully created product",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Product"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"fatal": {
+														"type": "boolean"
+													},
+													"message": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/products/{id}": {
+			"get": {
+				"summary": "Get product by ID",
+				"tags": ["Products"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sucessfully get product by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Product"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Product not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"put": {
+				"summary": "Update product by ID",
+				"tags": ["Products"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": ["name"],
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Product"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Sucessfully updated product by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Product"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"fatal": {
+														"type": "boolean"
+													},
+													"message": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Product not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete product by ID",
+				"tags": ["Products"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sucessfully deleted product by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Product"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Product not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/register": {
+			"post": {
+				"summary": "Register a new user",
+				"tags": ["Authentication"],
+				"requestBody": {
+					"required": ["name", "email", "password"],
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Sucessfully created user",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"fatal": {
+														"type": "boolean"
+													},
+													"message": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/login": {
+			"post": {
+				"summary": "Register a new user",
+				"tags": ["Authentication"],
+				"requestBody": {
+					"required": ["name", "email", "password"],
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "example@gmail.com"
+									},
+									"password": {
+										"type": "string",
+										"example": "123456"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Sucessfully login",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"token": {
+											"type": "string",
+											"example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid password"
+					},
+					"404": {
+						"description": "User not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/transactions": {
+			"get": {
+				"summary": "Get all transactions",
+				"tags": ["Transactions"],
+				"responses": {
+					"200": {
+						"description": "Sucessfully list all transactions",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Transactions"
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"post": {
+				"summary": "create a new transaction",
+				"tags": ["Transactions"],
+				"requestBody": {
+					"required": ["name"],
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+									},
+									"seller": {
+										"type": "string",
+										"example": "Jose"
+									},
+									"product": {
+										"type": "string",
+										"example": "Carrinho do batmam"
+									},
+									"typeId": {
+										"type": "number",
+										"example": 1
+									},
+									"price": {
+										"type": "number",
+										"example": 155000
+									},
+									"date": {
+										"type": "string",
+										"example": "2022-03-03T16:12:16.000Z"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Sucessfully created transaction",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Transactions"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"fatal": {
+														"type": "boolean"
+													},
+													"message": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/transactions/{id}": {
+			"get": {
+				"summary": "Get transaction by ID",
+				"tags": ["Transactions"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sucessfully list transaction by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Transactions"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Transaction not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"put": {
+				"summary": "Updated a transaction by ID",
+				"tags": ["Transactions"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"example": "91cbd117-08de-4bf2-ab43-a771d87088ae"
+									},
+									"seller": {
+										"type": "string",
+										"example": "Jose"
+									},
+									"product": {
+										"type": "string",
+										"example": "Carrinho do batmam"
+									},
+									"typeId": {
+										"type": "number",
+										"example": 1
+									},
+									"price": {
+										"type": "number",
+										"example": 155000
+									},
+									"date": {
+										"type": "string",
+										"example": "2022-03-03T16:12:16.000Z"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Sucessfully updated transaction",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Transactions"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"fatal": {
+														"type": "boolean"
+													},
+													"message": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Transaction not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete transaction by ID",
+				"tags": ["Transactions"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sucessfully deleted transaction by ID",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Transactions"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Transaction not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		}
+	}
+}
