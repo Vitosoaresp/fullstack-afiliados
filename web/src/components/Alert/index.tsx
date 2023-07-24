@@ -6,6 +6,7 @@ import {
 	Alert as MuiAlert,
 	Typography,
 } from '@mui/material';
+import { useEffect } from 'react';
 
 interface AlertProps {
 	type: 'success' | 'error' | 'warning';
@@ -15,6 +16,12 @@ interface AlertProps {
 }
 
 export default function Alert({ type, message, open, onClose }: AlertProps) {
+	useEffect(() => {
+		setTimeout(() => {
+			onClose();
+		}, 6000);
+	}, [onClose]);
+
 	return (
 		<Box sx={{ position: 'fixed', right: 30, top: 100 }}>
 			<Collapse in={open}>
