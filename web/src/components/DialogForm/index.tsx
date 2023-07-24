@@ -44,7 +44,7 @@ export function DialogForm({ open, onRefuse }: DialogFormProps) {
 		}
 		try {
 			setLoading(true);
-			await api.post('/transactions/file', formatedFile);
+			await api.post('/transactions', formatedFile);
 			onRefuse();
 		} catch (error) {
 			setError('Error ao salvar o arquivo');
