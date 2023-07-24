@@ -1,6 +1,6 @@
 import { Seller } from '@prisma/client';
 import { SellerReport } from './seller';
-import { SaleDTO } from './transaction';
+import { TransactionDTO } from './transaction';
 
 export interface Service<T> {
 	getAll(): Promise<T[]>;
@@ -16,5 +16,5 @@ export interface ServiceSeller extends Service<Seller> {
 }
 
 export interface ServiceUpload {
-	createMany(data: SaleDTO[]): Promise<{ count: number }>;
+	createMany(data: TransactionDTO[]): Promise<{ count: number }>;
 }

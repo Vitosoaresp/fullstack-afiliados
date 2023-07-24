@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { ServiceUpload } from '../interfaces/services';
-import { SaleDTO } from '../interfaces/transaction';
+import { TransactionDTO } from '../interfaces/transaction';
 
 export default class UploadFileService implements ServiceUpload {
 	constructor(private _prisma: PrismaClient) {}
 
-	public async createMany(data: SaleDTO[]) {
+	public async createMany(data: TransactionDTO[]) {
 		return await this._prisma.$transaction(async (tx) => {
 			await tx.product.createMany({
 				data: data.map((item) => ({
@@ -24,7 +24,7 @@ export default class UploadFileService implements ServiceUpload {
 			const sellers = await tx.seller.findMany({});
 			const products = await tx.product.findMany({});
 
-			return await tx.sale.createMany({
+			return await tx.transaction.createMany({
 				data: data.map((item) => ({
 					price: item.price,
 					date: item.date,

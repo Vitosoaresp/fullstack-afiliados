@@ -10,6 +10,7 @@ export default class TransactionModel implements Model<Transaction> {
 			include: {
 				product: true,
 				seller: true,
+				transaction: true,
 			},
 		});
 		return result;
