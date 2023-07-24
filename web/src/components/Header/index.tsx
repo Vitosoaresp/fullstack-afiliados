@@ -5,11 +5,18 @@ import {
 	Link as MuiLink,
 	Typography,
 } from '@mui/material';
+import { useState } from 'react';
 import { useSession } from '../../hooks/useSession';
+import { DialogForm } from '../DialogForm';
 import { StyledHeader, StyledNavigation } from './styles';
 
 export function Header() {
 	const { email } = useSession();
+	const [open, setOpen] = useState(false);
+
+	const handleOpenDialog = () => setOpen(true);
+	const handleCloseDialog = () => setOpen(false);
+
 	return (
 		<StyledHeader>
 			<Container
@@ -49,6 +56,9 @@ export function Header() {
 						>
 							<Typography>Transações</Typography>
 						</MuiLink>
+						<Button variant='text' color='primary' onClick={handleOpenDialog}>
+							<Typography fontWeight={600}>Importar</Typography>
+						</Button>
 					</StyledNavigation>
 
 					{email && (
@@ -63,6 +73,7 @@ export function Header() {
 					)}
 				</Box>
 			</Container>
+			{open && <DialogForm open={open} onRefuse={handleCloseDialog} />}
 		</StyledHeader>
 	);
 }
