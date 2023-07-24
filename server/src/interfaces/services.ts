@@ -1,6 +1,7 @@
 import { Seller } from '@prisma/client';
 import { SellerReport } from './seller';
 import { TransactionDTO } from './transaction';
+import { User } from './user';
 
 export interface Service<T> {
 	getAll(): Promise<T[]>;
@@ -17,4 +18,9 @@ export interface ServiceSeller extends Service<Seller> {
 
 export interface ServiceUpload {
 	createMany(data: TransactionDTO[]): Promise<{ count: number }>;
+}
+
+export interface ServiceAuth {
+	register(data: unknown): Promise<User>;
+	login(data: unknown): Promise<string>;
 }

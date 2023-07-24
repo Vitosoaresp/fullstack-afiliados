@@ -26,3 +26,14 @@ export const sellerSchema = z.object({
 export const productSchema = z.object({
 	name: z.string(),
 });
+
+export const registerSchema = z.object({
+	email: z.string().email(),
+	password: z.string(),
+	name: z.string(),
+});
+
+export const loginSchema = z.object({
+	email: z.string().email(),
+	password: z.string(),
+});

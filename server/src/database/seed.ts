@@ -28,7 +28,7 @@ const TYPE_FOUR = {
 
 async function run() {
 	await prisma.transactionsTypes.deleteMany();
-	await prisma.sale.deleteMany();
+	await prisma.transaction.deleteMany();
 
 	await Promise.all([
 		prisma.transactionsTypes.create({ data: TYPE_ONE }),
