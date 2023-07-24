@@ -1,4 +1,4 @@
-import { Transaction } from '../types/transaction';
+import { SubmitTransaction, Transaction } from '../types/transaction';
 
 enum OperationType {
 	VENDA_PRODUTOR = 1,
@@ -39,3 +39,39 @@ export const getComissionValue = (transactions: Transaction[]) => {
 
 	return formatValue(comission);
 };
+
+export function formatDataToJson(
+	fileContent: string,
+): SubmitTransaction[] | null {
+	try {
+		const lines: string[] = fileContent.split('\n');
+		const jsonData: SubmitTransaction[] = [];
+
+		for (let i = 0; i < lines.length; i++) {
+			const line = lines[i];
+			if (line.trim() === '') {
+				// Ignorar linhas vazias
+				continue;
+			}
+
+			const type = line.slice(0, 1).trim();
+			const date = line.slice(1, 26).trim();
+			const product = line.slice(26, 56).trim();
+			const price = line.slice(56, 66).trim();
+			const seller = line.slice(66, 86).trim();
+
+			jsonData.push({
+				typeId: Number(type),
+				date: new Date(date),
+				product,
+				price: Number(price),
+				seller,
+			});
+		}
+
+		return jsonData;
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
+}
