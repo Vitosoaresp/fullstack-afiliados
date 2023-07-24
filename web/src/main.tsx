@@ -1,8 +1,7 @@
-import { Container, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import { Header } from './components/Header';
 import { SessionProvider } from './context/session.tsx';
 import { SWRConfiguration } from './lib/SWRConfiguration.tsx';
 import { router } from './routes.tsx';
@@ -19,10 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 		<SWRConfiguration>
 			<SessionProvider>
 				<ThemeProvider theme={theme}>
-					<Header />
-					<Container maxWidth='xl'>
-						<RouterProvider router={router} />
-					</Container>
+					<RouterProvider router={router} />
 				</ThemeProvider>
 			</SessionProvider>
 		</SWRConfiguration>

@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Container } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../components/Alert';
@@ -30,7 +30,7 @@ export function Login() {
 	};
 
 	return (
-		<Box width='100%'>
+		<Container maxWidth='xl'>
 			{error && (
 				<Alert
 					type='error'
@@ -41,6 +41,6 @@ export function Login() {
 			)}
 			<LoginForm onSubmit={onSubmit} />
 			{isLoading && <SpinLoading />}
-		</Box>
+		</Container>
 	);
 }
