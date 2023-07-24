@@ -10,8 +10,6 @@ const model = new SellerModel(prisma);
 const service = new SellersService(model);
 const controller = new SellersController(service);
 
-router.get('/producers', (req, res) => controller.getProducers(req, res));
-router.get('/affiliates', (req, res) => controller.getAffiliates(req, res));
 router.get('/', (req, res) => controller.getAll(req, res));
 router.post('/', (req, res) => controller.create(req, res));
 router.get('/:id', (req, res) => controller.findById(req, res));

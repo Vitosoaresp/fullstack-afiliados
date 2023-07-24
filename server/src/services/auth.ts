@@ -14,10 +14,14 @@ export default class AuthService implements ServiceAuth {
 			throw parsedData.error;
 		}
 		const hashedPassword = await bcrypt.hash(parsedData.data.password, 10);
-		return this._model.create({
+		const created = await this._model.create({
 			...parsedData.data,
 			password: hashedPassword,
 		});
+		return {
+			...created,
+			password: null,
+		};
 	}
 
 	public async login(data: unknown) {

@@ -5,7 +5,7 @@ import { Client } from '../lib/prisma';
 export default class TransactionModel implements Model<Transaction> {
 	constructor(private _prisma: Client) {}
 
-	public async getAll() {
+	public async getAll(): Promise<Transaction[]> {
 		const result = await this._prisma.transaction.findMany({
 			include: {
 				product: true,
