@@ -1,8 +1,8 @@
-import { Model } from '../interfaces/model';
+import { ModelTransaction } from '../interfaces/model';
 import { Transaction, TransactionDTO } from '../interfaces/transaction';
 import { Client } from '../lib/prisma';
 
-export default class TransactionModel implements Model<Transaction> {
+export default class TransactionModel implements ModelTransaction {
 	constructor(private _prisma: Client) {}
 
 	public async getAll(): Promise<Transaction[]> {
@@ -123,5 +123,38 @@ export default class TransactionModel implements Model<Transaction> {
 			},
 		});
 		return result;
+	}
+
+	public async createMany(data: TransactionDTO[]) {
+		return await this._prisma.$transaction(async (tx) => {
+			await tx.product.createMany({
+				data: data.map((item) => ({
+					name: item.product,
+				})),
+				skipDuplicates: true,
+			});
+
+			await tx.seller.createMany({
+				data: data.map((item) => ({
+					name: item.seller,
+					type: item.typeId === 2 ? 'affiliate' : 'producer',
+				})),
+				skipDuplicates: true,
+			});
+			const sellers = await tx.seller.findMany({});
+			const products = await tx.product.findMany({});
+
+			return await tx.transaction.createMany({
+				data: data.map((item) => ({
+					price: item.price,
+					date: item.date,
+					typeId: item.typeId,
+					productId: products.find((product) => product.name === item.product)
+						?.id as string,
+					sellerId: sellers.find((seller) => seller.name === item.seller)
+						?.id as string,
+				})),
+			});
+		});
 	}
 }

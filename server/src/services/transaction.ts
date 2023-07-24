@@ -1,10 +1,10 @@
-import { Model } from '../interfaces/model';
+import { ModelTransaction } from '../interfaces/model';
 import { Service } from '../interfaces/services';
-import { Transaction } from '../interfaces/transaction';
-import { transactionSchema } from '../utils/validations';
+import { Transaction, TransactionDTO } from '../interfaces/transaction';
+import { transactionSchema, transactionsSchema } from '../utils/validations';
 
 export default class TransactionService implements Service<Transaction> {
-	constructor(private _model: Model<Transaction>) {}
+	constructor(private _model: ModelTransaction) {}
 
 	public async getAll(): Promise<Transaction[]> {
 		const result = await this._model.getAll();
@@ -42,5 +42,20 @@ export default class TransactionService implements Service<Transaction> {
 	public async delete(id: string): Promise<Transaction> {
 		const deleted = await this._model.delete(id);
 		return deleted;
+	}
+
+	public async createMany(data: TransactionDTO[]) {
+		const dataParsed = transactionsSchema.safeParse(data);
+		if (!dataParsed.success) {
+			throw dataParsed.error;
+		}
+
+		const create = await this._model.createMany(
+			dataParsed.data.map((transaction) => ({
+				...transaction,
+				date: new Date(transaction.date),
+			})),
+		);
+		return create;
 	}
 }

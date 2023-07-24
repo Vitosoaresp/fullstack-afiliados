@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { Service } from '../interfaces/services';
-import { Transaction } from '../interfaces/transaction';
+import { ServiceTransaction } from '../interfaces/services';
 
 export default class TransactionController {
-	constructor(private _service: Service<Transaction>) {}
+	constructor(private _service: ServiceTransaction) {}
 
 	public async findAll(_req: Request, res: Response) {
 		const result = await this._service.getAll();
@@ -11,6 +10,11 @@ export default class TransactionController {
 	}
 
 	public async create(req: Request, res: Response) {
+		const data = req.body;
+		if (Array.isArray(data)) {
+			const created = await this._service.createMany(data);
+			return res.status(201).json(created);
+		}
 		const created = await this._service.create(req.body);
 		return res.status(201).json(created);
 	}

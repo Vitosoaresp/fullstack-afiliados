@@ -8,12 +8,12 @@ export const transactionSchema = z.object({
 	typeId: z.number(),
 });
 
-export const salesSchema = z.array(
+export const transactionsSchema = z.array(
 	z.object({
-		productId: z.string(),
+		product: z.string(),
 		price: z.number(),
-		sellerId: z.string(),
-		date: z.date(),
+		seller: z.string(),
+		date: z.string(),
 		typeId: z.number(),
 	}),
 );

@@ -1,4 +1,4 @@
-import { TransactionDTO } from './transaction';
+import { Transaction, TransactionDTO } from './transaction';
 import { User } from './user';
 
 export interface Service<T> {
@@ -7,9 +7,10 @@ export interface Service<T> {
 	getById(id: string): Promise<T>;
 	update(id: string, data: unknown): Promise<T>;
 	delete(id: string): Promise<T>;
+	createMany?(data: unknown): Promise<{ count: number }>;
 }
 
-export interface ServiceUpload {
+export interface ServiceTransaction extends Service<Transaction> {
 	createMany(data: TransactionDTO[]): Promise<{ count: number }>;
 }
 
