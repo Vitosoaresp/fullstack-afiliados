@@ -1,4 +1,5 @@
 import {
+	Link,
 	Paper,
 	Table,
 	TableBody,
@@ -8,12 +9,14 @@ import {
 	TableHead,
 	TablePagination,
 	TableRow,
+	Typography,
 } from '@mui/material';
 import { format } from 'date-fns';
 import { useState } from 'react';
 import useSWR from 'swr';
 import { Transaction } from '../../types/transaction';
 import { formatValue } from '../../utils/helper';
+import EmptyData from '../EmptyData';
 import SpinLoading from '../SpinLoading';
 
 export function TransactionsList() {
@@ -34,20 +37,21 @@ export function TransactionsList() {
 	};
 	return (
 		<TableContainer component={Paper} variant='elevation'>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableCell>Data da operação</TableCell>
-						<TableCell>Valor</TableCell>
-						<TableCell>Vendedor</TableCell>
-						<TableCell>Prouto</TableCell>
-						<TableCell>Tipo da operação</TableCell>
-						<TableCell>Natureza da operação</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{hasData &&
-						data
+			{!hasData && !isLoading && <EmptyData />}
+			{hasData && (
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>Data da operação</TableCell>
+							<TableCell>Valor</TableCell>
+							<TableCell>Vendedor</TableCell>
+							<TableCell>Prouto</TableCell>
+							<TableCell>Tipo da operação</TableCell>
+							<TableCell>Natureza da operação</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{data
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map((transaction) => (
 								<TableRow key={transaction.id}>
@@ -55,7 +59,15 @@ export function TransactionsList() {
 										{format(new Date(transaction.date), 'dd/MM/yyyy, HH:mm')}
 									</TableCell>
 									<TableCell>{formatValue(transaction.price)}</TableCell>
-									<TableCell>{transaction.seller.name}</TableCell>
+									<TableCell>
+										<Link
+											underline='none'
+											color='inherit'
+											href={`/sellers/${transaction.sellerId}`}
+										>
+											<Typography>{transaction.seller.name}</Typography>
+										</Link>
+									</TableCell>
 									<TableCell>{transaction.product.name}</TableCell>
 									<TableCell>{transaction.transaction.description}</TableCell>
 									<TableCell>
@@ -63,21 +75,22 @@ export function TransactionsList() {
 									</TableCell>
 								</TableRow>
 							))}
-				</TableBody>
-				<TableFooter>
-					<TableRow>
-						<TablePagination
-							rowsPerPageOptions={[10, 25, 100]}
-							labelRowsPerPage='Linhas por página'
-							count={data?.length || 0}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-						/>
-					</TableRow>
-				</TableFooter>
-			</Table>
+					</TableBody>
+					<TableFooter>
+						<TableRow>
+							<TablePagination
+								rowsPerPageOptions={[10, 25, 100]}
+								labelRowsPerPage='Linhas por página'
+								count={data?.length || 0}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
+							/>
+						</TableRow>
+					</TableFooter>
+				</Table>
+			)}
 			{isLoading && <SpinLoading />}
 		</TableContainer>
 	);
