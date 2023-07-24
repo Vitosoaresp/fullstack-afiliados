@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useSession } from './hooks/useSession';
 
 function App() {
-	const { email } = useSession();
+	const { token } = useSession();
 	const navigate = useNavigate();
-	const isAthenticated = !email; // TODO: change this to check if the user is authenticated
+	const isAthenticated = !token; // TODO: change this to check if the user is authenticated
 	const pathToNavigate = isAthenticated ? '/transactions' : '/login';
 
 	useEffect(() => {
 		navigate(pathToNavigate);
-	}, [pathToNavigate, navigate, email]);
+	}, [pathToNavigate, navigate, token]);
 
 	return null;
 }

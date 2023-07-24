@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { Header } from './components/Header';
 import { SessionProvider } from './context/session.tsx';
-import { SWRConfiguration } from './lib/swrContainer.tsx';
+import { SWRConfiguration } from './lib/SWRConfiguration.tsx';
 import { router } from './routes.tsx';
 import { theme } from './theme';
 

@@ -3,11 +3,9 @@ import { createContext, useEffect, useState } from 'react';
 import { User } from '../types/login';
 
 interface SessionContextType {
-	email: string | null;
-	setEmail: (email: string) => void;
-	setName: (name: string) => void;
-	name: string | null;
+	token: string | null;
 	logout: () => void;
+	name: string | null;
 	setSession: (data: User) => void;
 }
 
@@ -16,46 +14,42 @@ interface SessionProviderProps {
 }
 
 const SessionContext = createContext<SessionContextType>({
-	email: null,
-	setEmail: () => {},
+	token: null,
 	name: null,
-	setName: () => {},
 	logout: () => {},
 	setSession: () => {},
 });
 
 export const SessionProvider = ({ children }: SessionProviderProps) => {
-	const [email, setEmail] = useState<string | null>(null);
+	const [token, setToken] = useState<string | null>(null);
 	const [name, setName] = useState<string | null>(null);
 
 	useEffect(() => {
 		const session = localStorage.getItem('session');
 		if (session) {
-			const { email, name } = JSON.parse(session) as User;
-			setEmail(email);
-			setName(name);
+			const { token, name } = JSON.parse(session) as User;
+			setToken(token);
+			setName(name || null);
 		}
 	}, []);
 
 	const logout = () => {
-		setEmail(null);
+		setToken(null);
 		setName(null);
 		localStorage.removeItem('session');
 	};
 
 	const setSession = (data: User) => {
-		setEmail(data.email);
-		setName(data.name);
+		setToken(data.token);
+		setName(data.name || null);
 		localStorage.setItem('session', JSON.stringify(data));
 	};
 
 	return (
 		<SessionContext.Provider
 			value={{
-				email,
-				setEmail,
+				token,
 				name,
-				setName,
 				logout,
 				setSession,
 			}}

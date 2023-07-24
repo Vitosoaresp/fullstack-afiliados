@@ -11,7 +11,7 @@ import { DialogForm } from '../DialogForm';
 import { StyledHeader, StyledNavigation } from './styles';
 
 export function Header() {
-	const { email } = useSession();
+	const { token } = useSession();
 	const [open, setOpen] = useState(false);
 
 	const handleOpenDialog = () => setOpen(true);
@@ -61,12 +61,12 @@ export function Header() {
 						</Button>
 					</StyledNavigation>
 
-					{email && (
+					{token && (
 						<Button variant='contained' color='secondary' disabled>
 							sair
 						</Button>
 					)}
-					{!email && (
+					{!token && (
 						<Button variant='contained' color='secondary' disabled>
 							entrar
 						</Button>
