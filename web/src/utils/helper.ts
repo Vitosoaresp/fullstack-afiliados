@@ -1,4 +1,5 @@
-import { SubmitTransaction, Transaction } from '../types/transaction';
+import { Transaction } from '../types/seller';
+import { SubmitTransaction } from '../types/transaction';
 
 enum OperationType {
 	VENDA_PRODUTOR = 1,

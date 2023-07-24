@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { Transaction } from '../../../types/transaction';
+import { Transaction } from '../../../types/seller';
 import {
 	formatValue,
 	getComissionValue,

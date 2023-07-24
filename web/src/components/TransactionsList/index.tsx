@@ -1,7 +1,9 @@
 import {
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
+	TableContainer,
 	TableFooter,
 	TableHead,
 	TablePagination,
@@ -31,7 +33,7 @@ export function TransactionsList() {
 		setPage(0);
 	};
 	return (
-		<>
+		<TableContainer component={Paper} variant='elevation'>
 			<Table>
 				<TableHead>
 					<TableRow>
@@ -77,6 +79,6 @@ export function TransactionsList() {
 				</TableFooter>
 			</Table>
 			{isLoading && <SpinLoading />}
-		</>
+		</TableContainer>
 	);
 }
