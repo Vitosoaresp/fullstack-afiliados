@@ -1,7 +1,7 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 import { SellersList } from '../components/SellersList';
 
-export function Seller() {
+export default function Sellers() {
 	return (
 		<Container maxWidth='xl'>
 			<Paper variant='outlined' sx={{ mt: 6 }}>

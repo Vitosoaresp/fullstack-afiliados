@@ -4,6 +4,7 @@ import {
 	Box,
 	Collapse,
 	IconButton,
+	Link,
 	Table,
 	TableBody,
 	TableCell,
@@ -13,7 +14,7 @@ import {
 } from '@mui/material';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { Transaction } from '../../../types/seller';
+import { Seller, Transaction } from '../../../types/seller';
 import {
 	formatValue,
 	getComissionValue,
@@ -21,12 +22,11 @@ import {
 } from '../../../utils/helper';
 
 interface TableRowProps {
-	name: string;
-	type: 'producer' | 'affiliate';
+	seller: Seller;
 	transactions: Transaction[] | [];
 }
 
-export function Row({ name, type, transactions }: TableRowProps) {
+export function Row({ seller, transactions }: TableRowProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const handleOpen = () => setIsOpen(!isOpen);
 
@@ -38,9 +38,13 @@ export function Row({ name, type, transactions }: TableRowProps) {
 						{isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
 					</IconButton>
 				</TableCell>
-				<TableCell>{name}</TableCell>
+				<TableCell>
+					<Link underline='none' color='inherit' href={`/sellers/${seller.id}`}>
+						<Typography>{seller.name}</Typography>
+					</Link>
+				</TableCell>
 				<TableCell align='right'>
-					{type === 'affiliate' ? 'Afiliado' : 'Produtor'}
+					{seller.type === 'affiliate' ? 'Afiliado' : 'Produtor'}
 				</TableCell>
 				<TableCell align='right'>{getComissionValue(transactions)}</TableCell>
 			</TableRow>

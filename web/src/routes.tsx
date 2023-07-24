@@ -3,7 +3,8 @@ import App from './App';
 import { Header } from './components/Header';
 import { Login } from './pages/login';
 import { Register } from './pages/register';
-import { Seller } from './pages/sellers';
+import Seller from './pages/sellerDetail';
+import Sellers from './pages/sellers';
 import { Transactions } from './pages/transactions';
 
 export const router = createBrowserRouter([
@@ -21,11 +22,20 @@ export const router = createBrowserRouter([
 		element: <App />,
 	},
 	{
-		path: '/sellers',
+		path: '/sellers/:id',
 		element: (
 			<>
 				<Header />
 				<Seller />
+			</>
+		),
+	},
+	{
+		path: '/sellers',
+		element: (
+			<>
+				<Header />
+				<Sellers />
 			</>
 		),
 	},
