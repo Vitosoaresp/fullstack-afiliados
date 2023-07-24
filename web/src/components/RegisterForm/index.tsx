@@ -9,14 +9,14 @@ import {
 	Typography,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { SubmitLogin } from '../../types/login';
-import { submitLoginSchema } from '../../utils/validations';
+import { SubmitRegister } from '../../types/login';
+import { submitRegisterSchema } from '../../utils/validations';
 
-interface LoginFormProps {
-	onSubmit: (data: SubmitLogin) => void;
+interface RegisterFormProps {
+	onSubmit: (data: SubmitRegister) => void;
 }
 
-export default function LoginForm({ onSubmit }: LoginFormProps) {
+export default function RegisterForm({ onSubmit }: RegisterFormProps) {
 	const {
 		register,
 		handleSubmit,
@@ -25,9 +25,10 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 		defaultValues: {
 			email: '',
 			password: '',
+			name: '',
 		},
 		shouldFocusError: true,
-		resolver: zodResolver(submitLoginSchema),
+		resolver: zodResolver(submitRegisterSchema),
 	});
 
 	return (
@@ -43,7 +44,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 			<Paper variant='outlined' sx={{ p: 8 }}>
 				<Box>
 					<Typography variant='h2' textAlign='center' fontWeight={500} mb={5}>
-						Faça seu login
+						Faça seu cadastro
 					</Typography>
 				</Box>
 				<form onSubmit={handleSubmit(onSubmit)}>
@@ -53,6 +54,14 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 							{errors.email && (
 								<Typography color='red' variant='caption'>
 									{errors.email.message}
+								</Typography>
+							)}
+						</Grid>
+						<Grid item xs={12}>
+							<TextField fullWidth label='nome' {...register('name')} />
+							{errors.name && (
+								<Typography color='red' variant='caption'>
+									{errors.name.message}
 								</Typography>
 							)}
 						</Grid>
@@ -76,15 +85,15 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 								variant='contained'
 								color='secondary'
 							>
-								Entrar
+								Criar
 							</Button>
 						</Grid>
 					</Grid>
 
 					<Grid item mt={2}>
-						<Typography component='span'>Não tem um cadastro?</Typography>
+						<Typography component='span'>Já tem um cadastro?</Typography>
 						<Link href='/register'>
-							<Typography component='span'> registre-se</Typography>
+							<Typography component='span'> faça seu login</Typography>
 						</Link>
 						<Typography component='span'> aqui.</Typography>
 					</Grid>
