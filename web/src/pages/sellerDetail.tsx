@@ -29,7 +29,7 @@ export default function SellerDetail() {
 					sx={{ mt: 6, display: 'flex', flexDirection: 'column', p: 8, gap: 4 }}
 				>
 					<Box sx={{ width: '100%' }}>
-						<Avatar sx={{ width: 100, height: 100 }}>
+						<Avatar sx={{ width: 100, height: 100 }} variant='rounded'>
 							{data?.name[0].toUpperCase()}
 						</Avatar>
 					</Box>
