@@ -10,7 +10,8 @@
 		"test": "mocha -r ts-node/register src/tests/unit/**/*.spec.ts --exit -t 60000",
 		"test:coverage": "nyc npm run test",
 		"test:integration": "mocha -r ts-node/register src/tests/integration/**/*.spec.ts --exit -t 60000",
-		"db:seed": "npx prisma db seed"
+		"db:seed": "npx prisma db seed",
+		"db:start": "npx prisma db push && npx prisma db seed"
 	},
 	"keywords": [],
 	"author": "",

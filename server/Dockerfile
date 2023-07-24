@@ -4,11 +4,13 @@ WORKDIR /app-backend
 
 COPY package*.json ./
 
-COPY prisma ./prisma/
+COPY ./prisma ./
 
 COPY . .
 
 EXPOSE 3001
+
+ENV DATABASE_URL=mysql://root:password@localhost:3306/database?schema=public
 
 RUN npm install && npm run build
 

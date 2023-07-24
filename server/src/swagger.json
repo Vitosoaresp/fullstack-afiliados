@@ -673,7 +673,7 @@
 		},
 		"/login": {
 			"post": {
-				"summary": "Register a new user",
+				"summary": "Login",
 				"tags": ["Authentication"],
 				"requestBody": {
 					"required": ["name", "email", "password"],
