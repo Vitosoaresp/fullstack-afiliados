@@ -14,6 +14,7 @@ describe('Model: Transactions', () => {
 			update: () => {},
 			delete: () => {},
 		},
+		$transaction: async (tx: PrismaClient) => tx,
 	} as unknown as PrismaClient;
 
 	const model = new TransactionModel(prisma);
@@ -30,6 +31,7 @@ describe('Model: Transactions', () => {
 			.resolves(null);
 		sinon.stub(prisma.transaction, 'update').resolves(mockSale);
 		sinon.stub(prisma.transaction, 'delete').resolves(mockSale);
+		sinon.stub(prisma, '$transaction').resolves({ count: 1 });
 	});
 
 	after(() => {
@@ -73,6 +75,13 @@ describe('Model: Transactions', () => {
 		it('successfully delete', async () => {
 			const product = await model.delete(FAKE_ID);
 			expect(product).to.be.deep.equal(mockSale);
+		});
+	});
+
+	describe('createMany', () => {
+		it('successfully', async () => {
+			const product = await model.createMany([mockSaleDTO]);
+			expect(product).to.be.deep.equal({ count: 1 });
 		});
 	});
 });

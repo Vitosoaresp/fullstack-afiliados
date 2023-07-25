@@ -29,7 +29,7 @@ describe('Controller: Auth', () => {
 
 	before(async () => {
 		stub(service, 'register').resolves(mockUserWithoutPassword);
-		stub(service, 'login').onFirstCall().resolves(FAKE_TOKEN);
+		stub(service, 'login').resolves(FAKE_TOKEN);
 
 		res.status = stub().returns(res);
 		res.json = stub().returns(res);

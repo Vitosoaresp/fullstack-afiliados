@@ -45,21 +45,83 @@ describe('Integration: Sellers success', () => {
 	});
 });
 
-// describe('Integration: Sellers error', () => {
-// 	before(() => {
-// 		sinon.stub(SellerModel.prototype, 'getAll').throws(new Error());
-// 	});
+describe('Integration: Sellers error', () => {
+	before(() => {
+		sinon.stub(SellerModel.prototype, 'getAll').throws(new Error());
+		sinon.stub(SellerModel.prototype, 'getById').resolves(null);
+		sinon.stub(SellerModel.prototype, 'delete').throws(new Error());
+	});
 
-// 	after(() => {
-// 		sinon.restore();
-// 	});
+	after(() => {
+		sinon.restore();
+	});
 
-// 	it('server error for get all sellers', async () => {
-// 		const response = await chai.request(app).get('/sellers');
-// 		expect(response.status).to.be.equal(500);
-// 		expect(response.body).to.be.an('object');
-// 		expect(response.body).to.be.deep.equal({
-// 			message: 'Internal server error',
-// 		});
-// 	});
-// });
+	it('should return error for get all sellers', async () => {
+		const response = await chai.request(app).get('/sellers');
+		expect(response.status).to.be.equal(500);
+		expect(response.body).to.be.an('object');
+		expect(response.body).to.be.deep.equal({
+			message: 'Internal Error',
+		});
+	});
+
+	it('should return error for get seller by invalid id', async () => {
+		const response = await chai
+			.request(app)
+			.get('/sellers/60e9b4f0f3f7b8b9b8b9b1234');
+		expect(response.status).to.be.equal(404);
+		expect(response.body).to.be.an('object');
+		expect(response.body).to.be.deep.equal({
+			error: 'id not found',
+		});
+	});
+
+	it('should return error for create a new seller with invalid data', async () => {
+		const response = await chai
+			.request(app)
+			.post('/sellers')
+			.send({ name: 'test' });
+		expect(response.status).to.be.equal(400);
+		expect(response.body).to.be.an('object');
+		expect(response.body).to.be.deep.equal({
+			message: [
+				{
+					code: 'invalid_type',
+					expected: 'string',
+					message: 'Required',
+					path: ['type'],
+					received: 'undefined',
+				},
+			],
+		});
+	});
+
+	it('should return error for update a new seller with invalid data', async () => {
+		const response = await chai
+			.request(app)
+			.put('/sellers/60e9b4f0f3f7b8b9b8b9b1234')
+			.send({ type: 'test' });
+		expect(response.status).to.be.equal(400);
+		expect(response.body).to.be.an('object');
+		expect(response.body).to.be.deep.equal({
+			message: [
+				{
+					code: 'invalid_type',
+					expected: 'string',
+					message: 'Required',
+					path: ['name'],
+					received: 'undefined',
+				},
+			],
+		});
+	});
+
+	it('should return error for delete a seller by Id', async () => {
+		const response = await chai.request(app).delete('/sellers/123');
+		expect(response.status).to.be.equal(500);
+		expect(response.body).to.be.an('object');
+		expect(response.body).to.be.deep.equal({
+			message: 'Internal Error',
+		});
+	});
+});

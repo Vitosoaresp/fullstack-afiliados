@@ -31,6 +31,7 @@ describe('Controller: Transaction', () => {
 		stub(service, 'getById').resolves(mockSale);
 		stub(service, 'update').resolves(mockSale);
 		stub(service, 'delete').resolves(mockSale);
+		stub(service, 'createMany').resolves({ count: 1 });
 
 		res.status = stub().returns(res);
 		res.json = stub().returns(res);
@@ -82,6 +83,15 @@ describe('Controller: Transaction', () => {
 			await controller.delete(req, res);
 			expect((res.status as sinon.SinonStub).calledWith(201)).to.be.true;
 			expect((res.json as sinon.SinonStub).calledWith(mockSale)).to.be.true;
+		});
+	});
+
+	describe('POST /transactions/many', () => {
+		it('success for create many transactions', async () => {
+			req.body = [mockSaleDTO];
+			await controller.create(req, res);
+			expect((res.status as sinon.SinonStub).calledWith(201)).to.be.true;
+			expect((res.json as sinon.SinonStub).calledWith({ count: 1 })).to.be.true;
 		});
 	});
 });

@@ -33,6 +33,7 @@ describe('Service: Transaction', () => {
 			.resolves(null);
 		sinon.stub(model, 'update').resolves(mockSale);
 		sinon.stub(model, 'delete').resolves(mockSale);
+		sinon.stub(model, 'createMany').resolves({ count: 1 });
 	});
 
 	after(() => {
@@ -101,6 +102,28 @@ describe('Service: Transaction', () => {
 		it('successfully delete', async () => {
 			const sale = await service.delete(FAKE_ID);
 			expect(sale).to.be.deep.equal(mockSale);
+		});
+	});
+
+	describe('create many', () => {
+		it('successfully', async () => {
+			const sale = await service.createMany([
+				{
+					...mockSaleDTO,
+					date: mockSaleDTO.date.toISOString() as any,
+				},
+			]);
+			expect(sale).to.be.deep.equal({ count: 1 });
+		});
+
+		it('should return error if body is invalid', async () => {
+			let error;
+			try {
+				await service.createMany([mockSaleDTO]);
+			} catch (err: any) {
+				error = err;
+			}
+			expect(error).to.be.instanceOf(ZodError);
 		});
 	});
 });
