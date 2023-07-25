@@ -47,7 +47,9 @@ export function DialogForm({ open, onRefuse }: DialogFormProps) {
 			await api.post('/transactions', formatedFile);
 			onRefuse();
 		} catch (error) {
-			setError('Error ao salvar o arquivo');
+			setError(
+				'Ocorreu um error ao salvar o arquivo, verique se está no formato adequado!',
+			);
 		} finally {
 			setLoading(false);
 		}
